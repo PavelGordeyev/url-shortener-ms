@@ -11,13 +11,20 @@ block content
 
 	h2 Example of creating shortened URL
 	code https://short-url-pg.herokuapp.com/new/https://www.google.com
+	br
 	code https://short-url-pg.herokuapp.com/new/http://foo.com:80
 
 	h2 Example output
+	code { "original_url":"http://www.google.com", "short_url":"https://short-url-pg.herokuapp.com/2871" }
+	br
 	code { "original_url":"http://foo.com:80", "short_url":"https://short-url-pg.herokuapp.com/8170" }
 
 	h2 Usage
 	code https://short-url-pg.herokuapp.com/2871
+	br
+	code https://short-url-pg.herokuapp.com/8170
 
 	h2 Redirects to...
 	code https://www.google.com
+	br
+	code http://foo.com:80

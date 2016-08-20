@@ -1,4 +1,5 @@
 const express = require('express');
+const http = require('http');
 
 const app = express();
 
@@ -15,7 +16,24 @@ app.set('views',__dirname + '/views');
 
 // Render initial page
 app.get('/',function(req,res){
+	console.log("req.url:",req.url);
 	res.render('index');
+});
+
+// Get url submitted by user
+app.get('/:protocol*',function(req,res){
+	var protocol = req.params.protocol,
+		uri = req.params['0'],
+		fullURL = protocol + uri,
+		shortenedURL = '',
+		results = {
+			'original': fullURL,
+			'shortened-url': shortenedURL
+		};
+	
+	res.setHeader('Content-Type', 'application/json');
+
+	res.send(JSON.stringify(results));
 });
 
 // Listen on port
