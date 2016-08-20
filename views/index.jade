@@ -1,6 +1,23 @@
-doctype
-html
-	head
-		title URL Shortener Microservice
-	body
-		h1 URL Shortener Microservice
+extends ./layout.jade
+
+block content
+	h1 URL Shortener Microservice
+	blockquote
+		| User Stories
+		ol
+			li I can pass a URL as a parameter and I will receive a shortened URL in the JSON response.
+			li  If I pass an invalid URL that doesn't follow the valid http://www.example.com format, the JSON response will contain an error instead.
+			li When I visit that shortened URL, it will redirect me to my original link.
+
+	h2 Example of creating shortened URL
+	code https://short-url-pg.herokuapp.com/new/https://www.google.com
+	code https://short-url-pg.herokuapp.com/new/http://foo.com:80
+
+	h2 Example output
+	code { "original_url":"http://foo.com:80", "short_url":"https://short-url-pg.herokuapp.com/8170" }
+
+	h2 Usage
+	code https://short-url-pg.herokuapp.com/2871
+
+	h2 Redirects to...
+	code https://www.google.com
