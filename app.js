@@ -1,11 +1,27 @@
 const express = require('express');
 const http = require('http');
+// const mongodb = require('mongodb');
+
+const MongoClient = require('mongodb').MongoClient;
 
 const app = express();
 
 // Sets port & hostname if running on either heroku or local machine
 const port = parseInt(process.env.PORT, 10) || 8080;
 const hostname = parseInt(process.env.PORT, 10) ? '0.0.0.0' : '127.0.0.1';
+
+// Database url
+var url = 'mongodb://localhost:27017/shortUrls';
+
+MongoClient.connect(url,function(err,db){
+	if(!err){
+		console.log('Connection established to:', url);
+
+		db.close();
+	}else{
+		console.log('Unable to connect to the mongoDB server. Error:',err);
+	}
+});
 
 // Set public directory
 app.use('/static', express.static(__dirname + './public'));
@@ -16,7 +32,6 @@ app.set('views',__dirname + '/views');
 
 // Render initial page
 app.get('/',function(req,res){
-	console.log("req.url:",req.url);
 	res.render('index');
 });
 
