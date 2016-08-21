@@ -37,62 +37,38 @@ app.use(function(req,res,next){
 app.use('/',routes);
 
 /// catch 404 and forwarding to error handler
-app.use(function(req, res, next) {
-    var err = new Error('Not Found');
-    err.status = 404;
-    next(err);
-});
+// app.use(function(req, res, next) {
+//     var err = new Error('Not Found');
+//     err.status = 404;
+//     next(err);
+// });
 
-/// error handlers
+// /// error handlers
 
-// development error handler
-// will print stacktrace
-if (app.get('env') === 'development') {
-    app.use(function(err, req, res, next) {
-        res.status(err.status || 500);
-        res.render('error', {
-            message: err.message,
-            error: err
-        });
-    });
-}
+// // development error handler
+// // will print stacktrace
+// if (app.get('env') === 'development') {
+//     app.use(function(err, req, res, next) {
+//         res.status(err.status || 500);
+//         res.render('error', {
+//             message: err.message,
+//             error: err
+//         });
+//     });
+// }
 
-// production error handler
-// no stacktraces leaked to user
-app.use(function(err, req, res, next) {
-    res.status(err.status || 500);
-    res.render('error', {
-        message: err.message,
-        error: {}
-    });
-});
+// // production error handler
+// // no stacktraces leaked to user
+// app.use(function(err, req, res, next) {
+//     res.status(err.status || 500);
+//     res.render('error', {
+//         message: err.message,
+//         error: {}
+//     });
+// });
 
 
 // Listen on port
 app.listen(port,hostname,function(){
 	console.log('Server running at http://${' + hostname + '}:${' + port + '}/');
 });
-
-
-// MongoClient.connect(url,function(err,db){
-// 	if(!err){
-// 		console.log('Connection established to:', url);
-// 		// dbFuncs.updateDocument(db,function(){
-// 		// 	db.close();
-// 		// });
-// 		var x = db.collection('usercollection').find();
-// 		// var x = db.CollectionName.find({},{a:1});
-// 		x.forEach(function(err,doc){
-// 			//assert.equal(err,null);
-// 			if(doc != null){
-// 				console.dir(doc);
-// 			}else{
-// 				//callback();
-// 				console.log("other");
-// 			}
-// 		});
-// 		console.log("x:",x);
-// 	}else{
-// 		console.log('Unable to connect to the mongoDB server. Error:',err);
-// 	}
-// });
