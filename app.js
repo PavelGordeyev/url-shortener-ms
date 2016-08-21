@@ -1,8 +1,11 @@
-const express = require('express');
-const http = require('http');
-// const mongodb = require('mongodb');
+'use strict';
 
-const MongoClient = require('mongodb').MongoClient;
+const express = require('express');
+// const dbFuncs = require('./public/js/dbFuncs.js');
+const assert = require('assert');
+const monk = require('monk');
+const mongodb = require('mongodb');
+// const MongoClient = require('mongodb').MongoClient;
 
 const app = express();
 
@@ -11,17 +14,9 @@ const port = parseInt(process.env.PORT, 10) || 8080;
 const hostname = parseInt(process.env.PORT, 10) ? '0.0.0.0' : '127.0.0.1';
 
 // Database url
-var url = 'mongodb://localhost:27017/shortUrls';
+// var url = 'mongodb://localhost:27017/nodetest1';
 
-MongoClient.connect(url,function(err,db){
-	if(!err){
-		console.log('Connection established to:', url);
-
-		db.close();
-	}else{
-		console.log('Unable to connect to the mongoDB server. Error:',err);
-	}
-});
+var db = monk('localhost:27017/shortURLs');
 
 // Set public directory
 app.use('/static', express.static(__dirname + './public'));
@@ -30,28 +25,74 @@ app.use('/static', express.static(__dirname + './public'));
 app.set('view engine','jade');
 app.set('views',__dirname + '/views');
 
-// Render initial page
-app.get('/',function(req,res){
-	res.render('index');
+// Set the routes
+var routes = require('./routes/index');
+
+// Monk connection object to make db accessible to router
+app.use(function(req,res,next){
+    req.db = db;
+    next();
 });
 
-// Get url submitted by user
-app.get('/:protocol*',function(req,res){
-	var protocol = req.params.protocol,
-		uri = req.params['0'],
-		fullURL = protocol + uri,
-		shortenedURL = '',
-		results = {
-			'original': fullURL,
-			'shortened-url': shortenedURL
-		};
-	
-	res.setHeader('Content-Type', 'application/json');
+app.use('/',routes);
 
-	res.send(JSON.stringify(results));
+/// catch 404 and forwarding to error handler
+app.use(function(req, res, next) {
+    var err = new Error('Not Found');
+    err.status = 404;
+    next(err);
 });
+
+/// error handlers
+
+// development error handler
+// will print stacktrace
+if (app.get('env') === 'development') {
+    app.use(function(err, req, res, next) {
+        res.status(err.status || 500);
+        res.render('error', {
+            message: err.message,
+            error: err
+        });
+    });
+}
+
+// production error handler
+// no stacktraces leaked to user
+app.use(function(err, req, res, next) {
+    res.status(err.status || 500);
+    res.render('error', {
+        message: err.message,
+        error: {}
+    });
+});
+
 
 // Listen on port
 app.listen(port,hostname,function(){
 	console.log('Server running at http://${' + hostname + '}:${' + port + '}/');
 });
+
+
+// MongoClient.connect(url,function(err,db){
+// 	if(!err){
+// 		console.log('Connection established to:', url);
+// 		// dbFuncs.updateDocument(db,function(){
+// 		// 	db.close();
+// 		// });
+// 		var x = db.collection('usercollection').find();
+// 		// var x = db.CollectionName.find({},{a:1});
+// 		x.forEach(function(err,doc){
+// 			//assert.equal(err,null);
+// 			if(doc != null){
+// 				console.dir(doc);
+// 			}else{
+// 				//callback();
+// 				console.log("other");
+// 			}
+// 		});
+// 		console.log("x:",x);
+// 	}else{
+// 		console.log('Unable to connect to the mongoDB server. Error:',err);
+// 	}
+// });
