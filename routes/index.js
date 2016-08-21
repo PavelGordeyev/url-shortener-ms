@@ -12,27 +12,29 @@ router.get('/', function(req, res) {
 router.get('/api/:protocol*',function(req,res){
 	var protocol = req.params.protocol,
 		uri = req.params['0'],
-		fullURL,
+		fullURL = protocol + uri,
 		shortenedURL = '',
 		results,
 		db = req.db,
 		collection = db.get('urlcollection');
 
 	// Check user URL
-	dbFuncs.checkUrl(uri,protocol);
+	if(dbFuncs.isValidUrl(fullURL)){
+		// Add url to db and return id of new url
+		id = dbFuncs.insertDocument(db,fullURL);
 
-	// Set full URL
-	fullURL = protocol + uri;
+		// Set the results object
+		results = {
+			'original': fullURL,
+			'shortened-url': "https://short-url-pg.herokuapp.com/" + id
+		};
+	}else{
+		results = {
+			"Error": "Invalid URL format. Check to see you have a valid protocol and a real site.",
+			"Invalid URL": fullURL
+		}
+	}
 
-	// Add url to db and return id of new url
-	id = dbFuncs.insertDocument(db,fullURL);
-
-	// Set the results object
-	results = {
-		'original': fullURL,
-		'shortened-url': "https://short-url-pg.herokuapp.com/" + id
-	};
-	
 	collection.find({},{},function(err,docs){
 		console.log("docs:",docs);
 	});

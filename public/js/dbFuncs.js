@@ -29,49 +29,16 @@ var getUrl = function(db,id,callback){
     });
 };
 
-var checkUrl = function(protocol,uri){
-    console.log(protocol);
-    console.log(uri);
-    // if(protocol === )
-};
-// Get random id for new url
-// function getRandomID(min, max) {
-//   min = Math.ceil(min);
-//   max = Math.floor(max);
-//   return Math.floor(Math.random() * (max - min + 1)) + min;
-// }
 
-// // Check if id passed already exists
-// function checkIDExists(collection,id){
-//   collection.findOne({urlID: id},function(err,doc){
-//     if(err){
-//       console.log("Error:",err);
-//       return false;
-//     }
+var isValidUrl = function(fullURL){
 
-//     // Checks if ID
-//     if(doc === null){
-//       return false;
-//     }
+    // Validation RegEx string from http://stackoverflow.com/questions/30970068/js-regex-url-validation
+    var validate = fullURL.match(/(http(s)?:\/\/.)?(www\.)?[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)/g);
     
-//     return true;
-//   });
-// }
+    return validate === null ? false : true;
+};
 
-// // Get the unique url id for the new url document
-// var getUrlId = function(collection){
-//   // Get a random ID between 1000 and 99999
-//   var rand = getRandomID(1000,99999);
-
-//   // Check if it is already taken
-//   while(checkIDExists(collection,rand)){
-//     rand = getRandomID(1000,99999);
-//   }
-
-//   // Return ID
-//   return rand;
-// };
 module.exports.insertDocument = insertDocument;
 module.exports.getUrl = getUrl;
-module.exports.checkUrl = checkUrl
+module.exports.isValidUrl = isValidUrl
 
