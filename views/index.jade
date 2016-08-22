@@ -10,21 +10,21 @@ block content
 			li When I visit that shortened URL, it will redirect me to my original link.
 
 	h2 Example of creating shortened URL
-	code https://short-url-pg.herokuapp.com/new/https://www.google.com
+	code https://short-url-pg.herokuapp.com/new/https://www.amazon.com
 	br
-	code https://short-url-pg.herokuapp.com/new/http://foo.com:80
+	code https://short-url-pg.herokuapp.com/new/http://www.google.com
 
 	h2 Example output
-	code { "original_url":"http://www.google.com", "short_url":"https://short-url-pg.herokuapp.com/2871" }
+	code { "original":"http://www.amazon.com", "shortened-url":"https://short-url-pg.herokuapp.com/5f64c9" }
 	br
-	code { "original_url":"http://foo.com:80", "short_url":"https://short-url-pg.herokuapp.com/8170" }
+	code { "original":"http://www.google.com", "shortened-url":"https://short-url-pg.herokuapp.com/e1ac83" }
 
 	h2 Usage
-	code https://short-url-pg.herokuapp.com/2871
+	code https://short-url-pg.herokuapp.com/5f64c9
 	br
-	code https://short-url-pg.herokuapp.com/8170
+	code https://short-url-pg.herokuapp.com/e1ac83
 
 	h2 Redirects to...
-	code https://www.google.com
+	code https://www.amazon.com
 	br
-	code http://foo.com:80
+	code http://www.google.com
