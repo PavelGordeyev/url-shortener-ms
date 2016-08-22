@@ -35,10 +35,6 @@ router.get('/api/:protocol*',function(req,res){
 		}
 	}
 
-	collection.find({},{},function(err,docs){
-		console.log("docs:",docs);
-	});
-
 	res.setHeader('Content-Type', 'application/json');
 
 	res.send(JSON.stringify(results));
@@ -49,11 +45,15 @@ router.get('/*',function(req,res){
 		db = req.db,
 		collection = db.get('urlcollection');
 
-	// Redirect to refURL
+	// Redirect to refURL if valid
 	dbFuncs.getUrl(db,id,function(refURL){
-		if(refURL !== null){
-			res.writeHead(301,{Location: refURL});
-			res.end();
+		if(refURL !== undefined){
+			res.redirect(refURL);
+		}else{
+			res.render('error',{
+				message: "Invalid shortened url",
+				error: {}
+			});
 		}
 		
 	});

@@ -1,20 +1,15 @@
 'use strict';
 
 const express = require('express');
-// const dbFuncs = require('./public/js/dbFuncs.js');
 const assert = require('assert');
 const monk = require('monk');
 const mongodb = require('mongodb');
-// const MongoClient = require('mongodb').MongoClient;
 
 const app = express();
 
 // Sets port & hostname if running on either heroku or local machine
 const port = parseInt(process.env.PORT, 10) || 8080;
 const hostname = parseInt(process.env.PORT, 10) ? '0.0.0.0' : '127.0.0.1';
-
-// Database url
-// var url = 'mongodb://localhost:27017/nodetest1';
 
 var db = monk('example:example123@ds013486.mlab.com:13486/shorturls');
 
