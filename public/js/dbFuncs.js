@@ -5,7 +5,6 @@ const ObjectID = require('mongodb').ObjectID;
 var insertDocument = function(db,fullURL) {
   // Get the documents collection 
   var collection = db.collection('urlcollection'),
-      // id = getUrlId(collection);
       id = new ObjectID();
 
   // Insert url document
@@ -19,13 +18,6 @@ var insertDocument = function(db,fullURL) {
 
 var getUrl = function(db,id,callback){
    
-    // var cursor = db.collection('urlcollection').find({urlID : id}, {},function(err,doc){
-    //     // if(doc === undefined){ // Invalid url id entered
-    //         callback(doc.refUrl);
-    //         db.close();
-    //     // }
-        
-    // });
     var collection = db.get('urlcollection');
  
     collection.find({urlID : id},function(err,result){
@@ -41,25 +33,6 @@ var getUrl = function(db,id,callback){
         }
       
     });
-    // db.collection('urlcollection').find({urlID : id},{rawCursor : true}).limit(1).next(function(err,doc){
-    //     console.log(doc);
-    // });
-    // db.collection('urlcollection').find({urlID : id},{urlID : id}).each(function(doc){
-    //   console.log("doc:",doc);
-    // });
-
-    // Valid url entered
-    // cursor.each(function(doc){
-    //     console.log(doc);
-    //     if(doc === undefined){
-    //         callback(undefined);
-    //         db.close();
-    //     }else{
-    //         callback(doc.refUrl);
-    //         db.close();
-    //     }
-        
-    // });
 };
 
 
